@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import DestinationForm from './DestinationForm'
 
 class TripDetails extends Component {
 
@@ -10,11 +11,12 @@ class TripDetails extends Component {
             return (
                 <div>
                     <h3>{trip.name}</h3>
+                    <DestinationForm destinations={trip.destinations} addDestination={this.props.addDestination} />
                     <ul>
                         {Object.keys(trip.destinations).map((destinationId) => {
                             const destination = trip.destinations[destinationId];
                             return (
-                                <li key={destination.id}>{destination.name}</li>
+                                <li key={destination.sequence}>{destination.name}</li>
                             )
                         })}
                     </ul>
