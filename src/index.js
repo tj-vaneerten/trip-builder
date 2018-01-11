@@ -11,7 +11,7 @@ const store = createStore(rootReducer)
 
 ReactDOM.render(
     <Router>
-        <Root store={store}></Root>
+        <Root store={store} />
     </Router>,
     document.getElementById('root'));
 registerServiceWorker();

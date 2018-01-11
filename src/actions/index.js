@@ -5,33 +5,47 @@ export const ADD_DESTINATION = 'ADD_DESTINATION'
 const sbTrip = {
 	id: 1,
 	name: 'Snowboard trip',
+    firstDestination: 1,
+    lastDestination: 3,
 	destinations: {
 		1: {
-			sequence: 1,
-			name: 'Columbus, OH'
+		    id: 1,
+			name: 'Columbus, OH',
+            previousDestination: null,
+            nextDestination: 2
 		},
 		2: {
-			sequence: 2,
-			name: 'Seven Springs, PA'
+		    id: 2,
+			name: 'Seven Springs, PA',
+            previousDestination: 1,
+            nextDestination: 3
 		},
 		3: {
-			sequence: 3,
-			name: 'Philadelphia, PA'
+		    id: 3,
+			name: 'Philadelphia, PA',
+            previousDestination: 2,
+            nextDestination: null
 		}
 	}
 }
 
 const euTrip = {
 	id: 2,
-	name: 'Eurpope trip',
+	name: 'Europe trip',
+    firstDestination: 1,
+    lastDestination: 2,
 	destinations: {
 		1: {
-			sequence: 1,
-			name: 'London'
+		    id: 1,
+			name: 'London',
+            previousDestination: null,
+            nextDestination: 2
 		},
 		2: {
-			sequence: 2,
-			name: 'France'
+		    id: 2,
+			name: 'France',
+            previousDestination: 1,
+            nextDestination: null
 		}
 	}
 }
