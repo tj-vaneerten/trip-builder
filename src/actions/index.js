@@ -11,18 +11,30 @@ const sbTrip = {
 		1: {
 		    id: 1,
 			name: 'Columbus, OH',
+			location: {
+		    	lat: 39.9828671,
+				lng: -83.1309112
+			},
             previousDestination: null,
             nextDestination: 2
 		},
 		2: {
 		    id: 2,
 			name: 'Seven Springs, PA',
+            location: {
+                lat: 40.0229768,
+                lng: -79.2998919
+            },
             previousDestination: 1,
             nextDestination: 3
 		},
 		3: {
 		    id: 3,
 			name: 'Philadelphia, PA',
+            location: {
+                lat: 40.0021607,
+                lng: -75.3982109
+            },
             previousDestination: 2,
             nextDestination: null
 		}
@@ -38,12 +50,20 @@ const euTrip = {
 		1: {
 		    id: 1,
 			name: 'London',
+            location: {
+                lat: 51.528308,
+                lng: -0.3817709
+            },
             previousDestination: null,
             nextDestination: 2
 		},
 		2: {
 		    id: 2,
-			name: 'France',
+			name: 'Paris',
+            location: {
+                lat: 48.8230945,
+                lng: 2.2307219
+            },
             previousDestination: 1,
             nextDestination: null
 		}
