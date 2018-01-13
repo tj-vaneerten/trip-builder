@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import DestinationForm from './DestinationForm'
+import MapView from './MapView'
 
 class TripDetails extends Component {
 
@@ -32,6 +33,7 @@ class TripDetails extends Component {
                             <li key={destination.id}>{destination.name}</li>
                         ))}
                     </ul>
+                    <MapView destinations={TripDetails.createListOfDestinations(trip)} />
                 </div>
             )
         }

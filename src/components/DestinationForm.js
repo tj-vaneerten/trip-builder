@@ -16,6 +16,10 @@ class DestinationForm extends Component {
 		this.props.addDestination({
             id: this.props.lastDestination + 1,
             name: this.state.name,
+            location: {
+            	lat: 42.3142643,
+            	lng: -71.1107129
+            },
             previousDestination: this.props.lastDestination,
             nextDestination: null
         });
