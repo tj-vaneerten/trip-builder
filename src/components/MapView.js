@@ -4,7 +4,7 @@ import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-map
 
 const MapView = compose(
 	withProps({
-		googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyCoO67xUDrjEUaJrZyLdimLsnilJ4-T9kM",
+		googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyCoO67xUDrjEUaJrZyLdimLsnilJ4-T9kM&libraries=places",
 		containerElement: <div style={{ height: `400px` }} />,
 		loadingElement: <div style={{ height: `100%` }} />,
 		mapElement: <div style={{ height: `100%` }} />
@@ -29,7 +29,7 @@ const MapView = compose(
 	}),
 	withScriptjs,
 	withGoogleMap
-)((props) => {
+)(props => {
 	return (
 		<GoogleMap
 			ref={props.onMapMounted}
@@ -38,7 +38,7 @@ const MapView = compose(
     			return <Marker key={destination.id} position={destination.location} />
     		})}
 		</GoogleMap>
-	)
+	);
 });
 
 export default MapView;

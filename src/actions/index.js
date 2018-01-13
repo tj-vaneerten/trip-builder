@@ -70,9 +70,18 @@ const euTrip = {
 	}
 }
 
+const newTrip = {
+	id: 3,
+	name: 'New Trip',
+	firstDestination: null,
+	lastDestination: null,
+	destination: {}
+}
+
 const tripDetails = {
 	1: sbTrip,
-	2: euTrip
+	2: euTrip,
+	3: newTrip
 }
 // ------------------------
 

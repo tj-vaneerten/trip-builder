@@ -1,43 +1,44 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import { withScriptjs } from 'react-google-maps';
+import { StandaloneSearchBox } from "react-google-maps/lib/components/places/StandaloneSearchBox";
+import { compose, withProps, lifecycle } from "recompose";
 
-class DestinationForm extends Component {
-	constructor() {
-		super();
-		this.state = {
-			name: ''
-		};
+const DestinationForm = compose(
+	withProps({
+		googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyCoO67xUDrjEUaJrZyLdimLsnilJ4-T9kM&libraries=places",
+    	loadingElement: <div style={{ height: `100%` }} />,
+    	containerElement: <div style={{ height: `400px` }} />
+	}),
+	lifecycle({
+		componentWillMount() {
+			const refs = {};
+			this.setState({
+				onSearchBoxMounted: ref => {
+					refs.searchBox = ref;
+				},
+				onPlacesChanged: () => {
+					const place = refs.searchBox.getPlaces()[0];
+					const newDestination = {
+						id: this.props.lastDestination + 1,
+						name: place.name,
+						location: place.geometry.location,
+						previousDestination: this.props.lastDestination,
+						nextDestination: null
+					};
+					this.props.addDestination(newDestination);
+				}
+			});
+		}
+	}),
+	withScriptjs
+)(props => {
+	return (
+		<div data-standalone-searchbox="">
+			<StandaloneSearchBox ref={props.onSearchBoxMounted} onPlacesChanged={props.onPlacesChanged}>
+				<input type="text" placeholder="Enter destination name" style={{width: 500 + 'px'}} />
+			</StandaloneSearchBox>
+		</div>
+	);
+});
 
-		this.onNameInputChange = this.onNameInputChange.bind(this);
-		this.onFormSubmit = this.onFormSubmit.bind(this);
-	}
-
-	onFormSubmit(e) {
-		e.preventDefault();
-		this.props.addDestination({
-            id: this.props.lastDestination + 1,
-            name: this.state.name,
-            location: {
-            	lat: 42.3142643,
-            	lng: -71.1107129
-            },
-            previousDestination: this.props.lastDestination,
-            nextDestination: null
-        });
-		this.setState({name: ''})
-	}
-
-	onNameInputChange(e) {
-        this.setState({name: e.target.value});
-    }
-
-	render() {
-		return (
-			<form onSubmit={this.onFormSubmit}>
-				<input placeholder="Enter destination name" onChange={this.onNameInputChange} value={this.state.name} />
-				<input type="submit" value="Add" />
-			</form>
-		);
-	}
-}
-
-export default DestinationForm
+export default DestinationForm;

@@ -7,6 +7,10 @@ export default (state = {}, action) => {
         2: {
             id: 2,
             name: 'Europe trip'
+        },
+        3: {
+            id: 3,
+            name: 'New Trip'
         }
     }
 }

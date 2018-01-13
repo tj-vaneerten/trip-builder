@@ -6,8 +6,9 @@ import MapView from './MapView'
 class TripDetails extends Component {
 
     static createListOfDestinations(trip) {
-
-        return trip.destinations[trip.firstDestination] ? TripDetails.recursivelyCreateListOfDestinations(trip.destinations, trip.firstDestination) : [];
+        return trip.firstDestination && trip.destinations[trip.firstDestination] 
+            ? TripDetails.recursivelyCreateListOfDestinations(trip.destinations, trip.firstDestination) 
+            : [];
     }
 
     static recursivelyCreateListOfDestinations(destinationObject, destinationId) {
@@ -28,12 +29,12 @@ class TripDetails extends Component {
                 <div>
                     <h3>{trip.name}</h3>
                     <DestinationForm lastDestination={trip.lastDestination} addDestination={this.props.addDestination} />
+                    <MapView destinations={TripDetails.createListOfDestinations(trip)} />
                     <ul>
                         {TripDetails.createListOfDestinations(trip).map((destination) => (
                             <li key={destination.id}>{destination.name}</li>
                         ))}
                     </ul>
-                    <MapView destinations={TripDetails.createListOfDestinations(trip)} />
                 </div>
             )
         }
