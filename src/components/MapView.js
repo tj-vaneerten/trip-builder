@@ -1,44 +1,46 @@
 import React from 'react'
 import { compose, withProps, lifecycle } from "recompose"
-import { withScriptjs, withGoogleMap, GoogleMap, Marker } from 'react-google-maps'
+import { withGoogleMap, GoogleMap, Marker, DirectionsRenderer } from 'react-google-maps'
 
 const MapView = compose(
 	withProps({
-		googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyCoO67xUDrjEUaJrZyLdimLsnilJ4-T9kM&libraries=places",
-		containerElement: <div style={{ height: `400px` }} />,
+		containerElement: <div style={{ height: `500px` }} />,
 		loadingElement: <div style={{ height: `100%` }} />,
 		mapElement: <div style={{ height: `100%` }} />
 	}),
 	lifecycle({
 		componentWillMount() {
-			const refs = {}
+		    const refs = {};
 			this.setState({
 				onMapMounted: ref => {
-					refs.map = ref;
-					this.setState({map: ref})
-				}
+                    refs.map = ref;
+                    this.state.updateMapBounds();
+				},
+                updateMapBounds: () => {
+				    if (refs.map) {
+                        let bounds = new window.google.maps.LatLngBounds();
+                        this.props.destinations.forEach(destination => {
+                            bounds.extend(destination.location);
+                        });
+                        refs.map.fitBounds(bounds);
+                    }
+                }
 			});
 		},
 		componentDidUpdate(prevProps, prevState) {
-			let bounds = new window.google.maps.LatLngBounds();
-			this.props.destinations.forEach(destination => {
-				bounds.extend(destination.location);
-			});
-			this.state.map.fitBounds(bounds);
+            this.state.updateMapBounds();
 		}
 	}),
-	withScriptjs,
 	withGoogleMap
 )(props => {
-	return (
-		<GoogleMap
-			ref={props.onMapMounted}
-			defaultZoom={17}>
-    		{props.destinations.map((destination) => {
-    			return <Marker key={destination.id} position={destination.location} />
-    		})}
-		</GoogleMap>
-	);
+    return (
+        <GoogleMap
+            ref={props.onMapMounted}
+            defaultZoom={17}>
+            {props.destinations.map(destination => <Marker key={destination.id} position={destination.location} />) }
+            {props.directions && <DirectionsRenderer directions={props.directions} />}
+        </GoogleMap>
+    );
 });
 
 export default MapView;

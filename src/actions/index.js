@@ -1,5 +1,8 @@
-export const SELECT_TRIP = 'SELECT_TRIP'
-export const ADD_DESTINATION = 'ADD_DESTINATION'
+import createListOfDestinations from '../utils';
+
+export const SELECT_TRIP = 'SELECT_TRIP';
+export const ADD_DESTINATION = 'ADD_DESTINATION';
+export const DIRECTIONS_FETCH_SUCCESSFULLY = 'DIRECTIONS_FETCH_SUCCESSFULLY';
 
 // Creating full trip details just for testing purposes. Will come from API
 const sbTrip = {
@@ -82,21 +85,73 @@ const tripDetails = {
 	1: sbTrip,
 	2: euTrip,
 	3: newTrip
-}
+};
 // ------------------------
 
-export const selectTrip = (trip) => {
-	const selectedTrip = tripDetails[trip] ? tripDetails[trip] : null
-    return {
-        type: SELECT_TRIP,
-        selectedTrip: selectedTrip
+const fetchDirectionsFromService = (trip, callback) => {
+    let listOfDestinations = createListOfDestinations(trip);
+    if (listOfDestinations.length >= 2) { // At least 2 destinations, request directions
+        const directionsService = new window.google.maps.DirectionsService();
+        const origin = listOfDestinations.shift();
+        const lastDestination = listOfDestinations.pop();
+        directionsService.route({
+            origin: origin.location,
+            destination: lastDestination.location,
+            travelMode: 'DRIVING',
+            waypoints: listOfDestinations.map(({location}) => ({
+                location,
+                stopover: true
+            }))
+        }, callback);
     }
+};
 
-}
+export const selectTrip = (trip) => {
+    return (dispatch, getState) => {
+        dispatch(selectTripSuccessfully(trip));
+        if (getState().selectedTrip) {
+            fetchDirectionsFromService(getState().selectedTrip, (result, status) => {
+                if (status === 'OK') {
+                    dispatch(directionsFetchSuccessfully(result));
+                }
+            });
+        }
+    };
+};
+
+export const fetchDirections = () => {
+    return (dispatch, getState) => {
+        fetchDirectionsFromService(getState().selectedTrip, (result, status) => {
+            if (status === 'OK') {
+                dispatch(directionsFetchSuccessfully(result));
+            }
+        });
+    };
+};
 
 export const addDestination = (destination) => {
-	return {
-		type: ADD_DESTINATION,
-		payload: destination
-	}
-}
+	return (dispatch, getState) => {
+	    dispatch(addDestinationSuccessfully(destination));
+
+        fetchDirectionsFromService(getState().selectedTrip, (result, status) => {
+            if (status === 'OK') {
+                dispatch(directionsFetchSuccessfully(result));
+            }
+        });
+	};
+};
+
+const directionsFetchSuccessfully = (directions) =>  ({
+    type: DIRECTIONS_FETCH_SUCCESSFULLY,
+    payload: directions
+});
+
+const addDestinationSuccessfully = (destination) => ({
+    type: ADD_DESTINATION,
+    payload: destination
+});
+
+const selectTripSuccessfully = (trip) => ({
+    type: SELECT_TRIP,
+    selectedTrip: tripDetails[trip] ? tripDetails[trip] : null
+});

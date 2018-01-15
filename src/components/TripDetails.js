@@ -1,25 +1,9 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import DestinationForm from './DestinationForm'
-import MapView from './MapView'
+import MapView from '../containers/MapView'
 
 class TripDetails extends Component {
-
-    static createListOfDestinations(trip) {
-        return trip.firstDestination && trip.destinations[trip.firstDestination] 
-            ? TripDetails.recursivelyCreateListOfDestinations(trip.destinations, trip.firstDestination) 
-            : [];
-    }
-
-    static recursivelyCreateListOfDestinations(destinationObject, destinationId) {
-        const destination = destinationObject[destinationId];
-        if (!destination.nextDestination) {
-            return [destination];
-        }
-        const destinationList = TripDetails.recursivelyCreateListOfDestinations(destinationObject, destination.nextDestination);
-        destinationList.unshift(destination);
-        return destinationList;
-    }
 
     render() {
         const trip = this.props.selectedTrip;
@@ -29,12 +13,7 @@ class TripDetails extends Component {
                 <div>
                     <h3>{trip.name}</h3>
                     <DestinationForm lastDestination={trip.lastDestination} addDestination={this.props.addDestination} />
-                    <MapView destinations={TripDetails.createListOfDestinations(trip)} />
-                    <ul>
-                        {TripDetails.createListOfDestinations(trip).map((destination) => (
-                            <li key={destination.id}>{destination.name}</li>
-                        ))}
-                    </ul>
+                    <MapView />
                 </div>
             )
         }
@@ -47,7 +26,8 @@ class TripDetails extends Component {
 }
 
 TripDetails.propTypes = {
-    selectedTrip: PropTypes.object
+    selectedTrip: PropTypes.object,
+    directions: PropTypes.object
 }
 
 export default TripDetails

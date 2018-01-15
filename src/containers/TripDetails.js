@@ -1,14 +1,15 @@
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { addDestination } from '../actions'
+import { addDestination, fetchDirections } from '../actions'
 import TripDetails from '../components/TripDetails'
 
-const mapStateToProps = ({ selectedTrip }) => ({
-    selectedTrip
-})
+const mapStateToProps = ({ selectedTrip, directions }) => ({
+    selectedTrip,
+    directions
+});
 
 const mapDispatchToProps = (dispatch) => (
-	bindActionCreators({ addDestination }, dispatch)
-)
+	bindActionCreators({ addDestination, fetchDirections }, dispatch)
+);
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripDetails)

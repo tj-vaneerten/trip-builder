@@ -1,11 +1,9 @@
-import React, { Component } from 'react';
-import { withScriptjs } from 'react-google-maps';
-import { StandaloneSearchBox } from "react-google-maps/lib/components/places/StandaloneSearchBox";
-import { compose, withProps, lifecycle } from "recompose";
+import React from 'react';
+import { StandaloneSearchBox } from 'react-google-maps/lib/components/places/StandaloneSearchBox';
+import { compose, withProps, lifecycle } from 'recompose';
 
 const DestinationForm = compose(
 	withProps({
-		googleMapURL: "https://maps.googleapis.com/maps/api/js?key=AIzaSyCoO67xUDrjEUaJrZyLdimLsnilJ4-T9kM&libraries=places",
     	loadingElement: <div style={{ height: `100%` }} />,
     	containerElement: <div style={{ height: `400px` }} />
 	}),
@@ -29,16 +27,14 @@ const DestinationForm = compose(
 				}
 			});
 		}
-	}),
-	withScriptjs
-)(props => {
-	return (
+	})
+)(props => (
 		<div data-standalone-searchbox="">
 			<StandaloneSearchBox ref={props.onSearchBoxMounted} onPlacesChanged={props.onPlacesChanged}>
-				<input type="text" placeholder="Enter destination name" style={{width: 500 + 'px'}} />
+				<input type="text" placeholder="Enter destination name" style={{width: '500px'}} />
 			</StandaloneSearchBox>
 		</div>
-	);
-});
+	)
+);
 
 export default DestinationForm;
