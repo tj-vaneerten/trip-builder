@@ -2,7 +2,7 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { fetchDirections } from '../actions'
 import Map from '../components/Map'
-import createListOfDestinations from '../utils'
+import { createListOfDestinations } from '../utils'
 
 const mapStateToProps = ({ selectedTrip, directions }) => ({
     destinations: createListOfDestinations(selectedTrip),

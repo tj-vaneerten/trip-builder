@@ -36,3 +36,11 @@
     display: inline-block;
     vertical-align: top;
 }
+
+.timeline-item-transit {
+
+}
+
+.timeline-item-destination {
+    background-color: azure;
+}

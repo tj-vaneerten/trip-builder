@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import DestinationForm from '../containers/DestinationForm'
 import Map from '../containers/Map'
-import TripTimeline from '../containers/TripTimeline'
+import Timeline from '../containers/Timeline'
 
 class TripDetails extends Component {
 
@@ -19,7 +19,7 @@ class TripDetails extends Component {
                             <Map />
                         </div>
                         <div className='col-lg-3'>
-                            <TripTimeline />
+                            <Timeline />
                         </div>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-import createListOfDestinations from '../utils';
+import { createListOfDestinations } from '../utils';
 
 export const SELECT_TRIP = 'SELECT_TRIP';
 export const ADD_DESTINATION = 'ADD_DESTINATION';
