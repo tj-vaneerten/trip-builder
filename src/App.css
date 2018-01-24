@@ -26,3 +26,13 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.map-container {
+    display: inline-block;
+    width: 80%;
+}
+
+.timeline-container {
+    display: inline-block;
+    vertical-align: top;
+}

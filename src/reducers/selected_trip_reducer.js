@@ -48,6 +48,7 @@ export default (state = null, action) => {
             return action.selectedTrip;
         case ADD_DESTINATION:
         	return Object.assign({}, state, {
+        	    firstDestination: state.firstDestination ? state.firstDestination : action.payload.id,
         		lastDestination: action.payload.id,
         		destinations: destinations(state.destinations, action)
         	});

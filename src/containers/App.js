@@ -6,7 +6,7 @@ import TripDetails from '../containers/TripDetails'
 class App extends Component {
   render() {
     return (
-        <div>
+        <div className='container'>
             <TripSelect/>
             <hr />
             <TripDetails/>

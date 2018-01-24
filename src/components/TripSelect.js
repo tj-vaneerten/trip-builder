@@ -7,12 +7,16 @@ class TripSelect extends Component {
         const { trips, selectTrip } = this.props
         if (trips) {
             return (
-                <select onChange={(e) => selectTrip(e.target.value)}>
-                    <option>Select trip</option>
-                    {Object.keys(trips).map((key) => (
-                        <option key={key} value={key}>{trips[key].name}</option>
-                    ))}
-                </select>
+                <div className='row'>
+                    <div className='col-lg-3'>
+                        <select className='form-control' onChange={(e) => selectTrip(e.target.value)}>
+                            <option>Select trip</option>
+                            {Object.keys(trips).map((key) => (
+                                <option key={key} value={key}>{trips[key].name}</option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
             )
         }
 

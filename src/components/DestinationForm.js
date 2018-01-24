@@ -1,40 +1,49 @@
-import React from 'react';
-import { StandaloneSearchBox } from 'react-google-maps/lib/components/places/StandaloneSearchBox';
-import { compose, withProps, lifecycle } from 'recompose';
+import React, { Component } from 'react';
 
-const DestinationForm = compose(
-	withProps({
-    	loadingElement: <div style={{ height: `100%` }} />,
-    	containerElement: <div style={{ height: `400px` }} />
-	}),
-	lifecycle({
-		componentWillMount() {
-			const refs = {};
-			this.setState({
-				onSearchBoxMounted: ref => {
-					refs.searchBox = ref;
-				},
-				onPlacesChanged: () => {
-					const place = refs.searchBox.getPlaces()[0];
-					const newDestination = {
-						id: this.props.lastDestination + 1,
-						name: place.name,
-						location: place.geometry.location,
-						previousDestination: this.props.lastDestination,
-						nextDestination: null
-					};
-					this.props.addDestination(newDestination);
-				}
-			});
-		}
-	})
-)(props => (
-		<div data-standalone-searchbox="">
-			<StandaloneSearchBox ref={props.onSearchBoxMounted} onPlacesChanged={props.onPlacesChanged}>
-				<input type="text" placeholder="Enter destination name" style={{width: '500px'}} />
-			</StandaloneSearchBox>
-		</div>
-	)
-);
+class DestinationForm extends Component {
+	constructor() {
+		super();
+		this.state = {
+			place: null
+		};
 
-export default DestinationForm;
+		this.onButtonClick = this.onButtonClick.bind(this);
+	}
+
+	componentDidMount() {
+	    const autoComplete = new window.google.maps.places.Autocomplete(this.refs.input);
+	    autoComplete.addListener('place_changed', () => {
+            this.setState({place: autoComplete.getPlace()});
+        });
+    }
+
+	onButtonClick(e) {
+		e.preventDefault();
+		this.props.addDestination({
+            id: this.props.lastDestination + 1,
+            name: this.state.place.name,
+            location: this.state.place.geometry.location,
+            previousDestination: this.props.lastDestination,
+            nextDestination: null
+        });
+        this.refs.input.value = '';
+        this.setState({place: null});
+	}
+
+	render() {
+		return (
+            <div className='row'>
+                <div className='col-lg-4'>
+                    <div className='input-group'>
+                        <input ref='input' className='form-control' placeholder="Enter destination name" />
+                        <span className='input-group-btn'>
+                            <button type='button' disabled={!this.state.place} className='btn btn-default' onClick={this.onButtonClick}>Add</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+		);
+	}
+}
+
+export default DestinationForm

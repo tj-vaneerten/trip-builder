@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import DestinationForm from './DestinationForm'
-import MapView from '../containers/MapView'
+import DestinationForm from '../containers/DestinationForm'
+import Map from '../containers/Map'
+import TripTimeline from '../containers/TripTimeline'
 
 class TripDetails extends Component {
 
@@ -12,8 +13,15 @@ class TripDetails extends Component {
             return (
                 <div>
                     <h3>{trip.name}</h3>
-                    <DestinationForm lastDestination={trip.lastDestination} addDestination={this.props.addDestination} />
-                    <MapView />
+                    <DestinationForm />
+                    <div className='row'>
+                        <div className='col-lg-9'>
+                            <Map />
+                        </div>
+                        <div className='col-lg-3'>
+                            <TripTimeline />
+                        </div>
+                    </div>
                 </div>
             )
         }
