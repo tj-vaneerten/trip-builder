@@ -6,16 +6,19 @@ export default class Map extends Component {
         super();
         this.state = {
             map: null,
-            directionsRenderer: null
+            directionsRenderer: null,
+            infoMarker: null
         }
     }
 
     componentDidMount() {
         const map = new window.google.maps.Map(this.refs.map);
         const directionsRenderer = new window.google.maps.DirectionsRenderer({map});
+        const infoWindow = new window.google.maps.InfoWindow();
         this.setState({
             map,
-            directionsRenderer
+            directionsRenderer,
+            infoWindow
         });
     }
 
@@ -38,9 +41,20 @@ export default class Map extends Component {
             if (this.props.directions) {
                 this.state.directionsRenderer.setDirections(this.props.directions);
             }
+
+            if (this.props.selectedDestination) {
+                this.state.infoWindow.setContent();
+                this.state.infoWindow.setPosition(this.props.selectedDestination.location);
+                this.state.infoWindow.open(this.state.map);
+            } else {
+                this.state.infoWindow.close();
+            }
         }
         return (
-            <div ref="map" style={{height: '500px'}} />
+            <div>
+                <div ref='map' id='map-view' />
+            </div>
+
         );
     }
 }

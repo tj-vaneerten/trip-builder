@@ -1,12 +1,20 @@
 import React from 'react';
-import TimelineItem from './TimelineItem';
+import TransitTimelineItem from './TransitTimelineItem';
+import DestinationTimelineItem from './DestinationTimelineItem';
 
 const Timeline = props => {
     return (
         <ul className='list-group'>
-            {props.timelineList.map((timelineListItem, index) => (
-                <TimelineItem key={index} timelineListItem={timelineListItem} />
-            ))}
+            {props.timelineList.map((timelineListItem, index) => {
+                switch (timelineListItem.type) {
+                    case "TRANSIT":
+                        return <TransitTimelineItem key={index} transitInfo={timelineListItem} />;
+                    case "DESTINATION":
+                        return <DestinationTimelineItem key={index} destinationInfo={timelineListItem} onDestinationTimelineItemClick={props.selectDestination}/>;
+                    default:
+                        return null;
+                }
+            })}
         </ul>
     )
 };

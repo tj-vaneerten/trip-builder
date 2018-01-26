@@ -23,6 +23,7 @@ export const createListOfTimelineItems = (trip, directions) => {
 
         timelineList.push({
             type: 'DESTINATION',
+            destinationId: destination.id,
             name: destination.name,
             address: leg ? leg.start_address
                 : previousLeg ? previousLeg.end_address

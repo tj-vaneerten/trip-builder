@@ -3,6 +3,7 @@ import { createListOfDestinations } from '../utils';
 export const SELECT_TRIP = 'SELECT_TRIP';
 export const ADD_DESTINATION = 'ADD_DESTINATION';
 export const DIRECTIONS_FETCH_SUCCESSFULLY = 'DIRECTIONS_FETCH_SUCCESSFULLY';
+export const SELECT_DESTINATION = 'SELECT_DESTINATION';
 
 // Creating full trip details just for testing purposes. Will come from API
 const sbTrip = {
@@ -78,7 +79,7 @@ const newTrip = {
 	name: 'New Trip',
 	firstDestination: null,
 	lastDestination: null,
-	destination: {}
+	destinations: {}
 }
 
 const tripDetails = {
@@ -106,7 +107,7 @@ const fetchDirectionsFromService = (trip, callback) => {
     }
 };
 
-export const selectTrip = (trip) => {
+export const selectTrip = trip => {
     return (dispatch, getState) => {
         dispatch(selectTripSuccessfully(trip));
         if (getState().selectedTrip) {
@@ -141,17 +142,22 @@ export const addDestination = (destination) => {
 	};
 };
 
-const directionsFetchSuccessfully = (directions) =>  ({
+const directionsFetchSuccessfully = directions =>  ({
     type: DIRECTIONS_FETCH_SUCCESSFULLY,
     payload: directions
 });
 
-const addDestinationSuccessfully = (destination) => ({
+const addDestinationSuccessfully = destination => ({
     type: ADD_DESTINATION,
     payload: destination
 });
 
-const selectTripSuccessfully = (trip) => ({
+const selectTripSuccessfully = trip => ({
     type: SELECT_TRIP,
     selectedTrip: tripDetails[trip] ? tripDetails[trip] : null
+});
+
+export const selectDestination = destination => ({
+    type: SELECT_DESTINATION,
+    selectedDestination: destination
 });

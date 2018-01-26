@@ -43,4 +43,9 @@
 
 .timeline-item-destination {
     background-color: azure;
+    cursor: pointer;
+}
+
+#map-view {
+    height: 500px;
 }

@@ -4,9 +4,10 @@ import { fetchDirections } from '../actions'
 import Map from '../components/Map'
 import { createListOfDestinations } from '../utils'
 
-const mapStateToProps = ({ selectedTrip, directions }) => ({
+const mapStateToProps = ({ selectedTrip, directions, selectedDestination }) => ({
     destinations: createListOfDestinations(selectedTrip),
-    directions
+    directions,
+    selectedDestination: selectedTrip.destinations[selectedDestination]
 });
 
 const mapDispatchToProps = dispatch => (

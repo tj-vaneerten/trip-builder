@@ -30,12 +30,18 @@ class DestinationForm extends Component {
         this.setState({place: null});
 	}
 
+	onInputChanged() {
+	    if (this.state.place) {
+	        this.setState({place: null});
+        }
+    }
+
 	render() {
 		return (
             <div className='row'>
                 <div className='col-lg-4'>
                     <div className='input-group'>
-                        <input ref='input' className='form-control' placeholder="Enter destination name" />
+                        <input ref='input' type='text' className='form-control' onChange={() => this.onInputChanged()} placeholder='Enter destination name' />
                         <span className='input-group-btn'>
                             <button type='button' disabled={!this.state.place} className='btn btn-default' onClick={this.onButtonClick}>Add</button>
                         </span>
