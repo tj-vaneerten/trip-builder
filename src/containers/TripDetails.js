@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { addDestination, fetchDirections } from '../actions'
+import { addDestination } from '../actions'
 import TripDetails from '../components/TripDetails'
 
 const mapStateToProps = ({ selectedTrip, directions }) => ({
@@ -9,7 +9,7 @@ const mapStateToProps = ({ selectedTrip, directions }) => ({
 });
 
 const mapDispatchToProps = (dispatch) => (
-	bindActionCreators({ addDestination, fetchDirections }, dispatch)
+	bindActionCreators({ addDestination }, dispatch)
 );
 
 export default connect(mapStateToProps, mapDispatchToProps)(TripDetails)

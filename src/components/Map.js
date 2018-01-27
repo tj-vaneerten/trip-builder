@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 
 export default class Map extends Component {
 
@@ -7,8 +7,11 @@ export default class Map extends Component {
         this.state = {
             map: null,
             directionsRenderer: null,
-            infoMarker: null
-        }
+            infoMarker: null,
+            selectedDestination: null
+        };
+
+        this.onDestinationSaveButtonClicked = this.onDestinationSaveButtonClicked.bind(this);
     }
 
     componentDidMount() {
@@ -24,6 +27,15 @@ export default class Map extends Component {
 
     componentDidUpdate() {
         this.updateMapBounds();
+        this.refs.name.value = this.state.selectedDestination ? this.state.selectedDestination.name : '';
+    }
+
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.selectedDestination !== this.state.selectedDestination) {
+            this.setState({
+                selectedDestination: nextProps.selectedDestination,
+            });
+        }
     }
 
     updateMapBounds() {
@@ -36,6 +48,13 @@ export default class Map extends Component {
         }
     }
 
+    onDestinationSaveButtonClicked() {
+        this.props.updateDestination({
+            id: this.state.selectedDestination.id,
+            name: this.refs.name.value
+        });
+    }
+
     render() {
         if (this.state.map) {
             if (this.props.directions) {
@@ -43,7 +62,7 @@ export default class Map extends Component {
             }
 
             if (this.props.selectedDestination) {
-                this.state.infoWindow.setContent();
+                this.state.infoWindow.setContent(this.refs.infoWindow);
                 this.state.infoWindow.setPosition(this.props.selectedDestination.location);
                 this.state.infoWindow.open(this.state.map);
             } else {
@@ -53,6 +72,10 @@ export default class Map extends Component {
         return (
             <div>
                 <div ref='map' id='map-view' />
+                <div ref='infoWindow' className='input-group'>
+                    <input ref='name' className='form-control' type='input' placeholder='Name of destination...' />
+                    <button className='btn btn-default' onClick={() => this.onDestinationSaveButtonClicked()}>Save</button>
+                </div>
             </div>
 
         );

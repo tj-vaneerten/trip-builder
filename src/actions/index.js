@@ -4,6 +4,7 @@ export const SELECT_TRIP = 'SELECT_TRIP';
 export const ADD_DESTINATION = 'ADD_DESTINATION';
 export const DIRECTIONS_FETCH_SUCCESSFULLY = 'DIRECTIONS_FETCH_SUCCESSFULLY';
 export const SELECT_DESTINATION = 'SELECT_DESTINATION';
+export const UPDATE_DESTINATION = 'UPDATE_DESTINATION';
 
 // Creating full trip details just for testing purposes. Will come from API
 const sbTrip = {
@@ -160,4 +161,9 @@ const selectTripSuccessfully = trip => ({
 export const selectDestination = destination => ({
     type: SELECT_DESTINATION,
     selectedDestination: destination
+});
+
+export const updateDestination = destinationProps => ({
+    type: UPDATE_DESTINATION,
+    payload: destinationProps
 });

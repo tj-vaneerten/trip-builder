@@ -1,7 +1,7 @@
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
-import { fetchDirections } from '../actions'
 import Map from '../components/Map'
+import { updateDestination } from "../actions";
+import { bindActionCreators } from 'redux';
 import { createListOfDestinations } from '../utils'
 
 const mapStateToProps = ({ selectedTrip, directions, selectedDestination }) => ({
@@ -11,7 +11,7 @@ const mapStateToProps = ({ selectedTrip, directions, selectedDestination }) => (
 });
 
 const mapDispatchToProps = dispatch => (
-    bindActionCreators({ fetchDirections }, dispatch)
+    bindActionCreators({updateDestination}, dispatch)
 );
 
-export default connect(mapStateToProps, mapDispatchToProps)(Map)
+export default connect(mapStateToProps, mapDispatchToProps)(Map);
