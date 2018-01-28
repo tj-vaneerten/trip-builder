@@ -5,6 +5,7 @@ export const ADD_DESTINATION = 'ADD_DESTINATION';
 export const DIRECTIONS_FETCH_SUCCESSFULLY = 'DIRECTIONS_FETCH_SUCCESSFULLY';
 export const SELECT_DESTINATION = 'SELECT_DESTINATION';
 export const UPDATE_DESTINATION = 'UPDATE_DESTINATION';
+export const DELETE_DESTINATION = 'DELETE_DESTINATION';
 
 // Creating full trip details just for testing purposes. Will come from API
 const sbTrip = {
@@ -166,4 +167,9 @@ export const selectDestination = destination => ({
 export const updateDestination = destinationProps => ({
     type: UPDATE_DESTINATION,
     payload: destinationProps
+});
+
+export const deleteDestination = destinationId => ({
+    type: DELETE_DESTINATION,
+    payload: destinationId
 });

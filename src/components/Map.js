@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Confirm from 'react-confirm-bootstrap';
 
 export default class Map extends Component {
 
@@ -7,8 +8,7 @@ export default class Map extends Component {
         this.state = {
             map: null,
             directionsRenderer: null,
-            infoMarker: null,
-            selectedDestination: null
+            infoMarker: null
         };
 
         this.onDestinationSaveButtonClicked = this.onDestinationSaveButtonClicked.bind(this);
@@ -27,14 +27,13 @@ export default class Map extends Component {
 
     componentDidUpdate() {
         this.updateMapBounds();
-        this.refs.name.value = this.state.selectedDestination ? this.state.selectedDestination.name : '';
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.selectedDestination !== this.state.selectedDestination) {
-            this.setState({
-                selectedDestination: nextProps.selectedDestination,
-            });
+        if (this.props.selectedDestination) {
+            this.refs.name.value = this.props.selectedDestination.name
+            this.state.infoWindow.setContent(this.refs.infoWindow);
+            this.state.infoWindow.setPosition(this.props.selectedDestination.location);
+            this.state.infoWindow.open(this.state.map);
+        } else {
+            this.state.infoWindow.close();
         }
     }
 
@@ -50,9 +49,13 @@ export default class Map extends Component {
 
     onDestinationSaveButtonClicked() {
         this.props.updateDestination({
-            id: this.state.selectedDestination.id,
+            id: this.props.selectedDestination.id,
             name: this.refs.name.value
         });
+    }
+
+    onConfirmDelete() {
+        console.log("confirmed delete");
     }
 
     render() {
@@ -60,24 +63,29 @@ export default class Map extends Component {
             if (this.props.directions) {
                 this.state.directionsRenderer.setDirections(this.props.directions);
             }
-
-            if (this.props.selectedDestination) {
-                this.state.infoWindow.setContent(this.refs.infoWindow);
-                this.state.infoWindow.setPosition(this.props.selectedDestination.location);
-                this.state.infoWindow.open(this.state.map);
-            } else {
-                this.state.infoWindow.close();
-            }
         }
         return (
             <div>
                 <div ref='map' id='map-view' />
-                <div ref='infoWindow' className='input-group'>
-                    <input ref='name' className='form-control' type='input' placeholder='Name of destination...' />
-                    <button className='btn btn-default' onClick={() => this.onDestinationSaveButtonClicked()}>Save</button>
+                <div ref='infoWindow'>
+                    {this.props.selectedDestination && (
+                        <div className='input-group'>
+                            <div className='form-group'>
+                                <label htmlFor='destinationName'>Name</label>
+                                <input id='destinationName' ref='name' className='form-control' type='input' placeholder='Name of destination...' />
+                            </div>
+                            <button type='button' className='btn btn-default' onClick={() => this.onDestinationSaveButtonClicked()}>Save</button>
+                            <Confirm
+                                body='Are you sure you want to delete this destination?'
+                                confirmText='Confirm delete'
+                                title='Delete destination'
+                                onConfirm={this.onConfirmDelete}>
+                                <button type='button' className='btn btn-link' onClick={() => this.onDestinationDeleteButtonClicked()}>Delete</button>
+                            </Confirm>
+                        </div>
+                    )}
                 </div>
             </div>
-
         );
     }
 }

@@ -1,4 +1,4 @@
-import { SELECT_TRIP, ADD_DESTINATION, UPDATE_DESTINATION } from '../actions'
+import {SELECT_TRIP, ADD_DESTINATION, UPDATE_DESTINATION, DELETE_DESTINATION} from '../actions'
 
 const previousDestination = (state = {}, action) => {
     switch(action.type) {
@@ -58,6 +58,7 @@ export default (state = null, action) => {
         case SELECT_TRIP:
             return action.selectedTrip;
         case ADD_DESTINATION:
+        case DELETE_DESTINATION:
         	return Object.assign({}, state, {
         	    firstDestination: state.firstDestination ? state.firstDestination : action.payload.id,
         		lastDestination: action.payload.id,
