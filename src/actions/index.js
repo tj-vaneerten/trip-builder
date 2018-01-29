@@ -144,6 +144,18 @@ export const addDestination = (destination) => {
 	};
 };
 
+export const deleteDestination = destinationId => {
+    return (dispatch, getState) => {
+        dispatch(deleteDestinationSuccessfully(destinationId));
+
+        fetchDirectionsFromService(getState().selectedTrip, (result, status) => {
+            if (status === 'OK') {
+                dispatch(directionsFetchSuccessfully(result));
+            }
+        });
+    };
+};
+
 const directionsFetchSuccessfully = directions =>  ({
     type: DIRECTIONS_FETCH_SUCCESSFULLY,
     payload: directions
@@ -169,7 +181,7 @@ export const updateDestination = destinationProps => ({
     payload: destinationProps
 });
 
-export const deleteDestination = destinationId => ({
+const deleteDestinationSuccessfully = destinationId => ({
     type: DELETE_DESTINATION,
     payload: destinationId
 });

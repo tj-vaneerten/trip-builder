@@ -24,11 +24,14 @@ const nextDestination = (state = {}, action) => {
 
 const destinations = (state = {}, action) => {
 	switch (action.type) {
-		case ADD_DESTINATION:
+        case ADD_DESTINATION:
+		    // Create new-state object to hold changes to previous destination and new destination
 		    let newDestinationState = {
                 [action.payload.previousDestination]: previousDestination(state[action.payload.previousDestination], action),
                 [action.payload.id]: destination(state[action.payload.id], action)
             };
+
+		    // update next destination by adding to new-state object, if needed
             if (action.payload.nextDestination) {
                 newDestinationState[action.payload.nextDestination] = nextDestination(state[action.payload.nextDestination], action)
             }
@@ -37,6 +40,32 @@ const destinations = (state = {}, action) => {
             return Object.assign({}, state, {
                 [action.payload.id]: destination(state[action.payload.id], action)
             });
+        case DELETE_DESTINATION:
+            // Get handles of current, previous, and next destinations, if they exist
+            const destToDelete = state[action.payload];
+            let prevDestToDelete = state[destination.previousDestination]
+                ? Object.assign({}, state[destination.previousDestination])
+                : null;
+            let nextDestToDelete = state[destination.nextDestination]
+                ? Object.assign({}, state[destination.nextDestination])
+                : null;
+
+            // Create new-state object to hold changes to previous and next destinations
+            let deleteDestinationState = {};
+
+            // Update previous and next destinations if they exist, and add changes to new-state object
+            if (prevDestToDelete) {
+                prevDestToDelete.nextDestination = nextDestToDelete.id;
+                deleteDestinationState[prevDestToDelete.id] = prevDestToDelete;
+            }
+            if (nextDestToDelete) {
+                nextDestToDelete.previousDestination = prevDestToDelete.id;
+                deleteDestinationState[nextDestToDelete.id] = nextDestToDelete;
+            }
+
+            // Deconstruct destinations to remove current destination
+            const {[destToDelete.id]: omit, ...newDestinations} = state;
+            return Object.assign({}, newDestinations, deleteDestinationState);
 		default:
 			return state
 	}
