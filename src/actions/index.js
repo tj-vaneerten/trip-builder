@@ -45,7 +45,7 @@ const sbTrip = {
             nextDestination: null
 		}
 	}
-}
+};
 
 const euTrip = {
 	id: 2,
@@ -74,15 +74,15 @@ const euTrip = {
             nextDestination: null
 		}
 	}
-}
+};
 
 const newTrip = {
 	id: 3,
 	name: 'New Trip',
 	firstDestination: null,
-	lastDestination: null,
+    lastDestination: null,
 	destinations: {}
-}
+};
 
 const tripDetails = {
 	1: sbTrip,
@@ -106,6 +106,8 @@ const fetchDirectionsFromService = (trip, callback) => {
                 stopover: true
             }))
         }, callback);
+    } else {
+        // callback(null, 'OK');
     }
 };
 

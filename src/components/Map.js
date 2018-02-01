@@ -12,6 +12,7 @@ export default class Map extends Component {
         };
 
         this.onDestinationSaveButtonClicked = this.onDestinationSaveButtonClicked.bind(this);
+        this.onConfirmDelete = this.onConfirmDelete.bind(this);
     }
 
     componentDidMount() {
@@ -55,7 +56,7 @@ export default class Map extends Component {
     }
 
     onConfirmDelete() {
-        console.log("confirmed delete");
+        this.props.deleteDestination(this.props.selectedDestination.id);
     }
 
     render() {

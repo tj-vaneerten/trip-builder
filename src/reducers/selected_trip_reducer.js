@@ -43,11 +43,11 @@ const destinations = (state = {}, action) => {
         case DELETE_DESTINATION:
             // Get handles of current, previous, and next destinations, if they exist
             const destToDelete = state[action.payload];
-            let prevDestToDelete = state[destination.previousDestination]
-                ? Object.assign({}, state[destination.previousDestination])
+            let prevDestToDelete = state[destToDelete.previousDestination]
+                ? Object.assign({}, state[destToDelete.previousDestination])
                 : null;
-            let nextDestToDelete = state[destination.nextDestination]
-                ? Object.assign({}, state[destination.nextDestination])
+            let nextDestToDelete = state[destToDelete.nextDestination]
+                ? Object.assign({}, state[destToDelete.nextDestination])
                 : null;
 
             // Create new-state object to hold changes to previous and next destinations
@@ -55,16 +55,16 @@ const destinations = (state = {}, action) => {
 
             // Update previous and next destinations if they exist, and add changes to new-state object
             if (prevDestToDelete) {
-                prevDestToDelete.nextDestination = nextDestToDelete.id;
+                prevDestToDelete.nextDestination = nextDestToDelete ? nextDestToDelete.id : null;
                 deleteDestinationState[prevDestToDelete.id] = prevDestToDelete;
             }
             if (nextDestToDelete) {
-                nextDestToDelete.previousDestination = prevDestToDelete.id;
+                nextDestToDelete.previousDestination = prevDestToDelete ? prevDestToDelete.id : null;
                 deleteDestinationState[nextDestToDelete.id] = nextDestToDelete;
             }
 
             // Deconstruct destinations to remove current destination
-            const {[destToDelete.id]: omit, ...newDestinations} = state;
+            let {[destToDelete.id.toString()]: omit, ...newDestinations} = state;
             return Object.assign({}, newDestinations, deleteDestinationState);
 		default:
 			return state
@@ -87,12 +87,17 @@ export default (state = null, action) => {
         case SELECT_TRIP:
             return action.selectedTrip;
         case ADD_DESTINATION:
-        case DELETE_DESTINATION:
         	return Object.assign({}, state, {
         	    firstDestination: state.firstDestination ? state.firstDestination : action.payload.id,
-        		lastDestination: action.payload.id,
+                lastDestination: action.payload.id,
         		destinations: destinations(state.destinations, action)
         	});
+        case DELETE_DESTINATION:
+            return Object.assign({}, state, {
+                firstDestination: state.firstDestination === action.payload ? state.destinations[action.payload].nextDestination : state.firstDestination,
+                lastDestination: state.lastDestination === action.payload ? state.destinations[action.payload].previousDestination : state.lastDestination,
+                destinations: destinations(state.destinations, action)
+            });
         case UPDATE_DESTINATION:
             return Object.assign({}, state, {
                 destinations: destinations(state.destinations, action)
