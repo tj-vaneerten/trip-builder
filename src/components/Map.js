@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Confirm from 'react-confirm-bootstrap';
+import DestinationInfoWindow from './DestinationInfoWindow';
 
 export default class Map extends Component {
 
@@ -10,9 +10,6 @@ export default class Map extends Component {
             directionsRenderer: null,
             infoMarker: null
         };
-
-        this.onDestinationSaveButtonClicked = this.onDestinationSaveButtonClicked.bind(this);
-        this.onConfirmDelete = this.onConfirmDelete.bind(this);
     }
 
     componentDidMount() {
@@ -29,7 +26,6 @@ export default class Map extends Component {
     componentDidUpdate() {
         this.updateMapBounds();
         if (this.props.selectedDestination) {
-            this.refs.name.value = this.props.selectedDestination.name
             this.state.infoWindow.setContent(this.refs.infoWindow);
             this.state.infoWindow.setPosition(this.props.selectedDestination.location);
             this.state.infoWindow.open(this.state.map);
@@ -48,21 +44,13 @@ export default class Map extends Component {
         }
     }
 
-    onDestinationSaveButtonClicked() {
-        this.props.updateDestination({
-            id: this.props.selectedDestination.id,
-            name: this.refs.name.value
-        });
-    }
-
-    onConfirmDelete() {
-        this.props.deleteDestination(this.props.selectedDestination.id);
-    }
-
     render() {
         if (this.state.map) {
             if (this.props.directions) {
+                this.state.directionsRenderer.setMap(this.state.map);
                 this.state.directionsRenderer.setDirections(this.props.directions);
+            } else {
+                this.state.directionsRenderer.setMap(null);
             }
         }
         return (
@@ -70,20 +58,10 @@ export default class Map extends Component {
                 <div ref='map' id='map-view' />
                 <div ref='infoWindow'>
                     {this.props.selectedDestination && (
-                        <div className='input-group'>
-                            <div className='form-group'>
-                                <label htmlFor='destinationName'>Name</label>
-                                <input id='destinationName' ref='name' className='form-control' type='input' placeholder='Name of destination...' />
-                            </div>
-                            <button type='button' className='btn btn-default' onClick={() => this.onDestinationSaveButtonClicked()}>Save</button>
-                            <Confirm
-                                body='Are you sure you want to delete this destination?'
-                                confirmText='Confirm delete'
-                                title='Delete destination'
-                                onConfirm={this.onConfirmDelete}>
-                                <button type='button' className='btn btn-link' onClick={() => this.onDestinationDeleteButtonClicked()}>Delete</button>
-                            </Confirm>
-                        </div>
+                        <DestinationInfoWindow
+                            updateDestination={this.props.updateDestination}
+                            deleteDestination={this.props.deleteDestination}
+                            selectedDestination={this.props.selectedDestination} />
                     )}
                 </div>
             </div>

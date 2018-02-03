@@ -19,12 +19,9 @@ class DestinationForm extends Component {
 
 	onButtonClick(e) {
 		e.preventDefault();
-		this.props.addDestination({
-            id: this.props.lastDestination + 1,
+		this.props.addDestination(this.props.selectedTrip, {
             name: this.state.place.name,
-            location: this.state.place.geometry.location,
-            previousDestination: this.props.lastDestination,
-            nextDestination: null
+            location: this.state.place.geometry.location
         });
         this.refs.input.value = '';
         this.setState({place: null});

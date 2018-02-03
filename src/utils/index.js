@@ -14,11 +14,12 @@ const recursivelyCreateListOfDestinations = (destinationObject, destinationId) =
     return destinationList;
 };
 
-export const createListOfTimelineItems = (trip, directions) => {
-    const listOfDestinations = createListOfDestinations(trip);
+// Given a list of destinations and the directions object from
+// Google maps, returns a list of timeline items
+export const createListOfTimelineItems = (destinations, directions) => {
     let timelineList = [];
     let previousLeg = null;
-    listOfDestinations.forEach((destination, index) => {
+    destinations.forEach((destination, index) => {
         const leg = directions && directions.routes && directions.routes[0] && directions.routes[0].legs ? directions.routes[0].legs[index] : null;
 
         timelineList.push({

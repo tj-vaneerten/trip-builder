@@ -3,8 +3,8 @@ import { bindActionCreators } from 'redux'
 import { addDestination } from '../actions'
 import TripDetails from '../components/TripDetails'
 
-const mapStateToProps = ({ selectedTrip, directions }) => ({
-    selectedTrip,
+const mapStateToProps = ({ entities, selectedTrip, directions }) => ({
+    trip: entities.trips.byId[selectedTrip],
     directions
 });
 

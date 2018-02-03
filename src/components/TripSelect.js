@@ -11,8 +11,8 @@ class TripSelect extends Component {
                     <div className='col-lg-3'>
                         <select className='form-control' onChange={(e) => selectTrip(e.target.value)}>
                             <option>Select trip</option>
-                            {Object.keys(trips).map((key) => (
-                                <option key={key} value={key}>{trips[key].name}</option>
+                            {trips.map((trip) => (
+                                <option key={trip.id} value={trip.id}>{trip.name}</option>
                             ))}
                         </select>
                     </div>
@@ -28,7 +28,7 @@ class TripSelect extends Component {
 }
 
 TripSelect.propTypes = {
-    trips: PropTypes.object.isRequired,
+    trips: PropTypes.array.isRequired,
     selectTrip: PropTypes.func.isRequired
 }
 

@@ -8,7 +8,7 @@ const mapStateToProps = ({ selectedTrip, directions, selectedDestination }) => {
     return {
         destinations: createListOfDestinations(selectedTrip),
         directions,
-        selectedDestination: selectedTrip.destinations[selectedDestination]
+        selectedDestination
     };
 };
 

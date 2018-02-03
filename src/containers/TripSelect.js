@@ -1,9 +1,14 @@
-import { connect } from 'react-redux'
-import TripSelect from '../components/TripSelect'
-import { selectTrip } from '../actions'
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import TripSelect from '../components/TripSelect';
+import { selectTrip } from '../actions';
 
-const mapStateToProps = state => ({
-    trips: state.trips
-})
+const mapStateToProps = ({entities}) => ({
+    trips: entities.trips.allTrips.map(tripId => (entities.trips.byId[tripId]))
+});
 
-export default connect(mapStateToProps, {selectTrip})(TripSelect)
+const mapDipatchToProps = dispatch => (
+    bindActionCreators({selectTrip}, dispatch)
+);
+
+export default connect(mapStateToProps, mapDipatchToProps)(TripSelect)

@@ -4,7 +4,7 @@ import DestinationForm from '../components/DestinationForm'
 import { addDestination } from "../actions";
 
 const mapStateToProps = ({ selectedTrip }) => ({
-    lastDestination: selectedTrip.lastDestination
+    selectedTrip
 });
 
 const mapDispatchToProps = dispatch => (

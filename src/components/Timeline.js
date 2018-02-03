@@ -10,7 +10,11 @@ const Timeline = props => {
                     case "TRANSIT":
                         return <TransitTimelineItem key={index} transitInfo={timelineListItem} />;
                     case "DESTINATION":
-                        return <DestinationTimelineItem key={index} destinationInfo={timelineListItem} onDestinationTimelineItemClick={props.selectDestination}/>;
+                        return (
+                            <DestinationTimelineItem key={index} destinationInfo={timelineListItem}
+                                                     selectedTrip={props.selectedTrip}
+                                                     onDestinationTimelineItemClick={props.selectDestination} />
+                        );
                     default:
                         return null;
                 }

@@ -7,12 +7,10 @@ import Timeline from '../containers/Timeline'
 class TripDetails extends Component {
 
     render() {
-        const trip = this.props.selectedTrip;
-
-        if (trip) {
+        if (this.props.trip) {
             return (
                 <div>
-                    <h3>{trip.name}</h3>
+                    <h3>{this.props.trip.name}</h3>
                     <DestinationForm />
                     <div className='row'>
                         <div className='col-lg-9'>
@@ -34,7 +32,7 @@ class TripDetails extends Component {
 }
 
 TripDetails.propTypes = {
-    selectedTrip: PropTypes.object,
+    trip: PropTypes.object,
     directions: PropTypes.object
 }
 

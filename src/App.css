@@ -47,5 +47,17 @@
 }
 
 #map-view {
-    height: 500px;
+    height: 600px;
+}
+
+.info-window-form {
+    margin: 10px 0;
+}
+
+.budget-list .list-group-item {
+    background-color: #f6f6f6;
+}
+
+.budget-form {
+    width: 300px;
 }
