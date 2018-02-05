@@ -2,13 +2,12 @@ import { connect } from 'react-redux'
 import Map from '../components/Map'
 import { updateDestination, deleteDestination } from "../actions";
 import { bindActionCreators } from 'redux';
-import { createListOfDestinations } from '../utils'
 
-const mapStateToProps = ({ selectedTrip, directions, selectedDestination }) => {
+const mapStateToProps = ({ directions, selectedDestination, selectedTrip, entities }) => {
     return {
-        destinations: createListOfDestinations(selectedTrip),
         directions,
-        selectedDestination
+        selectedTrip: entities.trips.byId[selectedTrip],
+        selectedDestination: entities.destinations.byId[selectedDestination]
     };
 };
 

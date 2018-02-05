@@ -3,7 +3,7 @@ import {ADD_DESTINATION, DELETE_DESTINATION, SELECT_DESTINATION, SELECT_TRIP} fr
 export default (state = null, action) => {
     switch(action.type) {
         case SELECT_DESTINATION:
-            return action.selectedDestination;
+            return action.payload;
         case ADD_DESTINATION:
         case SELECT_TRIP:
         case DELETE_DESTINATION:

@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import {ADD_DESTINATION} from "../actions";
+import {ADD_DESTINATION, DELETE_DESTINATION} from "../actions";
 
 const initialTripsByIdForTesting = {
     1: {
@@ -29,7 +29,18 @@ const byId = (state = initialTripsByIdForTesting, action) => {
                     ...trip,
                     destinations: trip.destinations.concat(action.payload.destination.id)
                 }
-            }
+            };
+        /*
+        case DELETE_DESTINATION:
+            const trip = state[action.payload.tripId];
+            return {
+                ...state,
+                [action.payload.tripId]: {
+                    ...trip,
+                    destinations:
+                }
+            };
+        */
         default:
             return state;
     }

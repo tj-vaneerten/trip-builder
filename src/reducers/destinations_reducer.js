@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import {ADD_DESTINATION} from "../actions";
+import {ADD_DESTINATION, UPDATE_DESTINATION} from "../actions";
 
 const initialDestinationsStateForTesting = {
     1: {
@@ -27,7 +27,7 @@ const initialDestinationsStateForTesting = {
         }
     },
     4: {
-        id: 1,
+        id: 4,
         name: 'London',
         location: {
             lat: 51.528308,
@@ -35,7 +35,7 @@ const initialDestinationsStateForTesting = {
         }
     },
     5: {
-        id: 2,
+        id: 5,
         name: 'Paris',
         location: {
             lat: 48.8230945,
@@ -47,10 +47,11 @@ const initialDestinationsStateForTesting = {
 const byId = (state = initialDestinationsStateForTesting, action) => {
     switch(action.type) {
         case ADD_DESTINATION:
+        case UPDATE_DESTINATION:
             return {
                 ...state,
-                [action.payload.destination.id]: action.payload.destination
-            };
+                [action.payload.destination.id]: Object.assign({}, state[action.payload.destination.id], action.payload.destination)
+            }
         default:
             return state;
     }

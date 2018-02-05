@@ -24,23 +24,12 @@ export default class Map extends Component {
     }
 
     componentDidUpdate() {
-        this.updateMapBounds();
         if (this.props.selectedDestination) {
             this.state.infoWindow.setContent(this.refs.infoWindow);
             this.state.infoWindow.setPosition(this.props.selectedDestination.location);
             this.state.infoWindow.open(this.state.map);
         } else {
             this.state.infoWindow.close();
-        }
-    }
-
-    updateMapBounds() {
-        if (this.state.map) {
-            let bounds = new window.google.maps.LatLngBounds();
-            this.props.destinations.forEach(({ location }) => {
-                bounds.extend(location);
-            });
-            this.state.map.fitBounds(bounds);
         }
     }
 
@@ -61,7 +50,8 @@ export default class Map extends Component {
                         <DestinationInfoWindow
                             updateDestination={this.props.updateDestination}
                             deleteDestination={this.props.deleteDestination}
-                            selectedDestination={this.props.selectedDestination} />
+                            selectedDestination={this.props.selectedDestination}
+                            selectedTrip={this.props.selectedTrip} />
                     )}
                 </div>
             </div>

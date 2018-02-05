@@ -28,9 +28,9 @@ const selectTripSuccessfully = tripId => ({
     payload: tripId
 });
 
-const deleteDestinationSuccessfully = destinationId => ({
+const deleteDestinationSuccessfully = (tripId, destinationId) => ({
     type: DELETE_DESTINATION,
-    payload: destinationId
+    payload: {tripId, destinationId}
 });
 
 // Given a list of destinations and a callback, will fetch directions
@@ -57,6 +57,7 @@ const fetchDirectionsFromService = (destinations, callback) => {
 export const selectTrip = tripId => {
     return (dispatch, getState) => {
         dispatch(selectTripSuccessfully(tripId));
+
         const trip = getState().entities.trips.byId[getState().selectedTrip];
         if (trip) {
             let destinations = trip.destinations.map(destinationId => (getState().entities.destinations.byId[destinationId]));
@@ -72,6 +73,7 @@ export const selectTrip = tripId => {
 export const addDestination = (tripId, destination) => {
 	return (dispatch, getState) => {
 	    dispatch(addDestinationSuccessfully(tripId, destination));
+
         const trip = getState().entities.trips.byId[getState().selectedTrip];
         let destinations = trip.destinations.map(destinationId => (getState().entities.destinations.byId[destinationId]));
         fetchDirectionsFromService(destinations, (result, status) => {
@@ -82,11 +84,13 @@ export const addDestination = (tripId, destination) => {
 	};
 };
 
-export const deleteDestination = destinationId => {
+export const deleteDestination = (tripId, destinationId) => {
     return (dispatch, getState) => {
         dispatch(deleteDestinationSuccessfully(destinationId));
 
-        fetchDirectionsFromService(getState().selectedTrip, (result, status) => {
+        const trip = getState().entities.trips.byId[getState().selectedTrip];
+        let destinations = trip.destinations.map(destinationId => (getState().entities.destinations.byId[destinationId]));
+        fetchDirectionsFromService(destinations, (result, status) => {
             if (status === 'OK') {
                 dispatch(directionsFetchSuccessfully(result));
             }
@@ -96,7 +100,9 @@ export const deleteDestination = destinationId => {
 
 export const fetchDirections = () => {
     return (dispatch, getState) => {
-        fetchDirectionsFromService(getState().selectedTrip, (result, status) => {
+        const trip = getState().entities.trips.byId[getState().selectedTrip];
+        let destinations = trip.destinations.map(destinationId => (getState().entities.destinations.byId[destinationId]));
+        fetchDirectionsFromService(destinations, (result, status) => {
             if (status === 'OK') {
                 dispatch(directionsFetchSuccessfully(result));
             }
@@ -104,14 +110,14 @@ export const fetchDirections = () => {
     };
 };
 
-export const selectDestination = (trip, destination) => ({
+export const selectDestination = (trip, destinationId) => ({
     type: SELECT_DESTINATION,
-    selectedDestination: destination
+    payload: destinationId
 });
 
-export const updateDestination = destinationProps => ({
+export const updateDestination = destination => ({
     type: UPDATE_DESTINATION,
-    payload: destinationProps
+    payload: {destination}
 });
 
 export const addBudgetItem = budget => ({
