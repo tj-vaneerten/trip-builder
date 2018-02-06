@@ -86,7 +86,7 @@ export const addDestination = (tripId, destination) => {
 
 export const deleteDestination = (tripId, destinationId) => {
     return (dispatch, getState) => {
-        dispatch(deleteDestinationSuccessfully(destinationId));
+        dispatch(deleteDestinationSuccessfully(tripId, destinationId));
 
         const trip = getState().entities.trips.byId[getState().selectedTrip];
         let destinations = trip.destinations.map(destinationId => (getState().entities.destinations.byId[destinationId]));
@@ -110,7 +110,7 @@ export const fetchDirections = () => {
     };
 };
 
-export const selectDestination = (trip, destinationId) => ({
+export const selectDestination = (destinationId) => ({
     type: SELECT_DESTINATION,
     payload: destinationId
 });

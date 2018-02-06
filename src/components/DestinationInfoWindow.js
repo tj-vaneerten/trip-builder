@@ -31,7 +31,7 @@ export default class DestinationInfoWindow extends Component {
 
     onNameFormSubmitted(e) {
         e.preventDefault();
-        this.props.updateDestination(this.props.selectedTrip, {
+        this.props.updateDestination({
             id: this.props.selectedDestination.id,
             name: this.state.name
         });
@@ -48,7 +48,7 @@ export default class DestinationInfoWindow extends Component {
     }
 
     onConfirmDelete() {
-        this.props.deleteDestination(this.props.selectedDestination.id);
+        this.props.deleteDestination(this.props.selectedTrip.id, this.props.selectedDestination.id);
     }
 
     onNameChanged(e) {

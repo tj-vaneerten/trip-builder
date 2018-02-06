@@ -20,9 +20,10 @@ const initialTripsByIdForTesting = {
 };
 
 const byId = (state = initialTripsByIdForTesting, action) => {
+    let trip;
     switch(action.type) {
         case ADD_DESTINATION:
-            const trip = state[action.payload.tripId];
+            trip = state[action.payload.tripId];
             return {
                 ...state,
                 [action.payload.tripId]: {
@@ -30,17 +31,15 @@ const byId = (state = initialTripsByIdForTesting, action) => {
                     destinations: trip.destinations.concat(action.payload.destination.id)
                 }
             };
-        /*
         case DELETE_DESTINATION:
-            const trip = state[action.payload.tripId];
+            trip = state[action.payload.tripId];
             return {
                 ...state,
                 [action.payload.tripId]: {
                     ...trip,
-                    destinations:
+                    destinations: trip.destinations.filter(id => id !== action.payload.destinationId)
                 }
             };
-        */
         default:
             return state;
     }
