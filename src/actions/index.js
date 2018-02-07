@@ -120,7 +120,13 @@ export const updateDestination = destination => ({
     payload: {destination}
 });
 
-export const addBudgetItem = budget => ({
+export const addBudgetItem = (destinationId, budgetItem) => ({
     type: ADD_BUDGET_ITEM,
-    payload: budget
+    payload: {
+        destinationId,
+        budgetItem: {
+            ...budgetItem,
+            id: uuid()
+        }
+    }
 });

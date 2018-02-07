@@ -7,7 +7,7 @@ export default class DestinationInfoWindow extends Component {
         this.state = {
             id: this.props.selectedDestination.id,
             name: this.props.selectedDestination.name,
-            budgetItems: this.props.selectedDestination.budgetItems,
+            budgetItems: this.props.budgetItems,
             newBudgetItemName: '',
             newBudgetItemAmount: ''
         };
@@ -23,7 +23,7 @@ export default class DestinationInfoWindow extends Component {
         this.setState({
             id: nextProps.selectedDestination.id,
             name: nextProps.selectedDestination.name,
-            budgetItems: nextProps.selectedDestination.budgetItems,
+            budgetItems: nextProps.budgetItems,
             newBudgetItemName: '',
             newBudgetItemAmount: ''
         });
@@ -39,7 +39,10 @@ export default class DestinationInfoWindow extends Component {
 
     onBudgetFormSubmitted(e) {
         e.preventDefault();
-        console.log(`adding budget item name: ${this.state.newBudgetItemName} - ${this.state.newBudgetItemAmount}`);
+        this.props.addBudgetItem(this.props.selectedDestination.id, {
+            description: this.state.newBudgetItemName,
+            amount: this.state.newBudgetItemAmount
+        });
         this.setState({
             newBudgetItemName: '',
             newBudgetItemAmount: ''
@@ -64,6 +67,7 @@ export default class DestinationInfoWindow extends Component {
     }
 
     render() {
+        let totalBudget = 0;
         return (
             <div className='info-window'>
                 <form className='info-window-form' onSubmit={this.onNameFormSubmitted}>
@@ -79,8 +83,9 @@ export default class DestinationInfoWindow extends Component {
 
                 <label>Budget items</label>
                 <ul className='list-group budget-list'>
-                    {this.state.budgetItems && Object.keys(this.state.budgetItems).map(key => {
+                    {Object.keys(this.state.budgetItems).map(key => {
                         const item = this.state.budgetItems[key];
+                        totalBudget = totalBudget + (item.amount ? parseInt(item.amount, 10) : 0);
                         return (
                             <li key={item.id} className='list-group-item'>
                                 <div className='row'>
@@ -108,6 +113,14 @@ export default class DestinationInfoWindow extends Component {
                             <input type='submit' style={{display: 'none'}} />
                         </form>
                     </li>
+                    {Object.keys(this.state.budgetItems).length > 0 && (
+                        <li className='list-group-item'>
+                            <div className='row'>
+                                <div className='col-sm-6'>Total</div>
+                                <div className='col-sm-6'>${totalBudget}</div>
+                            </div>
+                        </li>
+                    )}
                 </ul>
 
                 <Confirm

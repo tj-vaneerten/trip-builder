@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import DestinationInfoWindow from './DestinationInfoWindow';
+import DestinationInfoWindow from '../containers/DestinationInfoWindow';
 
 export default class Map extends Component {
 
@@ -47,11 +47,7 @@ export default class Map extends Component {
                 <div ref='map' id='map-view' />
                 <div ref='infoWindow'>
                     {this.props.selectedDestination && (
-                        <DestinationInfoWindow
-                            updateDestination={this.props.updateDestination}
-                            deleteDestination={this.props.deleteDestination}
-                            selectedDestination={this.props.selectedDestination}
-                            selectedTrip={this.props.selectedTrip} />
+                        <DestinationInfoWindow />
                     )}
                 </div>
             </div>
